@@ -6,6 +6,36 @@ With this bot you're able to keep track of commits made to a [Perforce version c
 
 ## Installation Steps 
 
+### Setup P4
+
+We have to install P4 on your computer.
+
+**Linux:**
+
+Get the install url of the latest version of P4 from [here](https://www.perforce.com/downloads/helix-command-line-client-p4) and replace the `<DOWNLOAD URL>` part in the command below.
+
+```
+wget <DOWNLOAD URL>
+chmod +x p4
+mkdir ~/perforce
+mv p4 ~/perforce/p4
+echo 'export PATH=${PATH}:~/perforce' >> ~/.bashrc
+```
+
+If the perforce server is using SSL, you'll have to trust the certificate. To know if it is using ssl, the perforce url should start with `ssl:<URL>`
+
+```
+p4 -p <PERFORCE URL> trust
+```
+
+Set up a client for your pc on the perforce server:
+
+```
+p4 -p <PERFORCE URL> -u <USER> -d ~/depot client -t <EXISTING WORKSPACE NAME> -o <HOSTNAME> | p4 -p <PERFORCE URL> -u <USER> client -i
+```
+
+### Setup bot
+
 1. Within your Discord server go to the settings for the channel you'd like the commit logs to be posted to and copy the webhook URL.
 2. In order to use this bot the config file needs to be set up `config.json`
 3. The service requires access to the `p4 changes` command in the terminal, your bot should be installed somewhere where it can automatically perform this command without the session expiring. Once suitable access has been provided you'll need to run `$ pip install DiscordWebhooks` followed by `$ python app.py` to initialize it.
@@ -39,7 +69,7 @@ The installation will require you to enter a number of settings as environment v
 | `host` | perforce server url | **yes** |  |
 | `user` | perforce user |  | `null` |
 | `password` | perforce password |  | `null` |
-| `depot` | perforce depot |  | `null` |
+| `depot` | perforce depot url (include location of depot on disk + the depot name) (/root/depot/Y2018D-Y2-DigitalDeckbuilder) |  | `null` |
 | `limit` | limit of commits | **yes** | 5 |
 | `status` | perforce status (`pending`, `submitted`, or `shelved`) | **yes** | `submitted` |
 | `decode` | perforce commit message decoing | **yes** | `ISO-8859-1` |
