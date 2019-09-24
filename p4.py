@@ -136,14 +136,14 @@ def request_review(perforce, id):
         data = r.json()
         result["data"] = data["review"]
     else:
-        print 'Error: Login request returned status code ' + r.status_code + '. Should be 200.'
+        print 'Error: Login request returned status code ' + str(r.status_code) + '. Should be 200.'
     comments = requests.get(url=perforce.swarm + "api/v9/comments/?topic=reviews/" + id, auth=HTTPBasicAuth(perforce.server.user, key), verify=False)
     if comments.status_code == 200:
         data = comments.json()
         result["comments"] = data["comments"]
         return result
     else:
-        print 'Error: Comments request returned status code ' + comments.status_code + '. Should be 200.'
+        print 'Error: Comments request returned status code ' + str(comments.status_code) + '. Should be 200.'
     
     return None
 
