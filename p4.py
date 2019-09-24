@@ -119,28 +119,30 @@ def build_command(perforce):
     command = "p4 "+host+" "+user+" "+password+" changes -l -m "+str(perforce.limit)+" -s "+status+" "+depo
     return command
 
-def request_review(perforce,id):
+
+def request_review(perforce, id):
     # sending get request and saving the response as response object 
-    swarm = perforce.swarm +"api/v9/reviews/"+id
+    swarm = perforce.swarm + "api/v9/reviews/" + id
     regex = r"(Enter|\s+|:+|password|\\n|\\r)"
     p4login = subprocess.Popen(build_login_command(perforce), stdout=subprocess.PIPE,stdin=subprocess.PIPE, shell=True)
     #p4login.stdin.write('yourPassword\n')
     #p4login.stdin.flush()
     com = p4login.communicate(input=perforce.server.password)
-    key = re.sub(regex,"",com[0])
-    r = requests.get(url = swarm,auth=HTTPBasicAuth('Simon170636', key), verify=False)#TODO:make secure
-    result = {"id":id,"key":key,"data":None,"comments":[]}
+    key = re.sub(regex, "", com[0])
+    r = requests.get(url=swarm, auth=HTTPBasicAuth(perforce.server.user, key), verify=False)  # TODO:make secure
+    result = {"id": id, "key": key, "data": None, "comments": []}
     if r.status_code == 200:
-    # extracting data in json format 
+        # extracting data in json format
         data = r.json()
         result["data"] = data["review"]
-    comments = requests.get(url = perforce.swarm +"api/v9/comments/?topic=reviews/"+id,auth=HTTPBasicAuth('Simon170636', key), verify=False)    
+    comments = requests.get(url=perforce.swarm + "api/v9/comments/?topic=reviews/" + id, auth=HTTPBasicAuth(perforce.server.user, key), verify=False)
     if comments.status_code == 200:
         data = comments.json()
         result["comments"] = data["comments"]
         return result
     
     return None
+
 
 def request_changes(perforce):
     command = build_command(perforce)
