@@ -6,10 +6,10 @@ With this bot you're able to keep track of commits made to a [Perforce version c
 
 ### Setup Python
 
-Install `python2.7`
-Install `python-pip`
-Install `pip install enum34`
-Install `pip install Discord-Webhooks`
+Install `python2.7`  
+Install `python-pip`  
+Install `pip install enum34`  
+Install `pip install Discord-Webhooks`  
 
 ### Setup P4
 
