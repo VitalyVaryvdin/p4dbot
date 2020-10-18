@@ -116,7 +116,7 @@ def build_command(perforce):
     if perforce.server.host != None and perforce.server.host != "":
         host = "-p "+perforce.server.host
     
-    command = "p4 "+host+" "+user+" "+password+" changes -l -m "+str(perforce.limit)+" -s "+status+" "+depo
+    command = "p4 "+host+" "+user+" "+password+" changes -l -m "+str(perforce.limit)+" -s "+status
     return command
 
 
