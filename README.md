@@ -1,10 +1,15 @@
 # Perforce Commit Logger Discord Bot 
 
- [![Issues](https://img.shields.io/github/issues/simonrenger/p4dbot.svg)](https://github.com/JamesIves/perforce-commit-discord-bot/issues)
-
 With this bot you're able to keep track of commits made to a [Perforce version control](https://www.perforce.com/) server within a [Discord](https://discordapp.com/) channel. 
 
 ## Installation Steps 
+
+### Setup Python
+
+Install `python2.7`
+Install `python-pip`
+Install `pip install enum34`
+Install `pip install Discord-Webhooks`
 
 ### Setup P4
 
@@ -12,34 +17,18 @@ We have to install P4 on your computer.
 
 **Linux:**
 
-Get the install url of the latest version of P4 from [here](https://www.perforce.com/downloads/helix-command-line-client-p4) and replace the `<DOWNLOAD URL>` part in the command below.
-
-```
-wget <DOWNLOAD URL>
-chmod +x p4
-mkdir ~/perforce
-mv p4 ~/perforce/p4
-echo 'export PATH=${PATH}:~/perforce' >> ~/.bashrc
-```
-
 If the perforce server is using SSL, you'll have to trust the certificate. To know if it is using ssl, the perforce url should start with `ssl:<URL>`
 
 ```
 p4 -p <PERFORCE URL> trust
 ```
 
-Set up a client for your pc on the perforce server:
-
-```
-p4 -p <PERFORCE URL> -u <USER> -d ~/depot client -t <EXISTING WORKSPACE NAME> -o <HOSTNAME> | p4 -p <PERFORCE URL> -u <USER> client -i
-```
-
 ### Setup bot
 
 1. Within your Discord server go to the settings for the channel you'd like the commit logs to be posted to and copy the webhook URL.
 2. In order to use this bot the config file needs to be set up `config.json`
-3. The service requires access to the `p4 changes` command in the terminal, your bot should be installed somewhere where it can automatically perform this command without the session expiring. Once suitable access has been provided you'll need to run `$ pip install DiscordWebhooks` followed by `$ python app.py` to initialize it.
-4. Optionally you should consider creating a CRON script or something similar that restarts the `app.py` file on server reboot in order to keep the bot alive.
+3. The service requires access to the `p4 changes` command in the terminal, your bot should be installed somewhere where it can automatically perform this command without the session expiring. `$ python commit.py` to initialize it.
+4. Optionally you should consider creating a CRON script or something similar that restarts the `commit.py` file on server reboot in order to keep the bot alive.
 
 ---
 
